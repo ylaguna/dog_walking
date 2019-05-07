@@ -1,0 +1,75 @@
+version: 2.1
+
+commands:
+  intall_app_dependencies:
+    description: 'Install Dependencies'
+    steps:
+      - run:
+          name: Intalling Ruby Dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+jobs:
+  setup:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - intall_app_dependencies
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Gemfile
+            - Gemfile.lock
+            - Dockerfile
+
+  unit_tests:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+      - image: postgres:11.2
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+
+      - intall_app_dependencies
+
+      - run:
+          name: 'Reset DB'
+          command: bundle exec rails db:reset
+
+      - run:
+          name: 'Unit Tests'
+          command: bundle exec rspec
+
+
+workflows:
+  version: 2.1
+  build-deploy:
+    jobs:
+      - setup
+      - unit_tests:
+          requires:
+            - setup
