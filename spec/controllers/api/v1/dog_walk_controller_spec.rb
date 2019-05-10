@@ -25,5 +25,40 @@ RSpec.describe Api::V1::DogWalkController, type: :controller do
         expect(response_entries.size).to eq 25
       end
     end
+
+    context 'when it has a page param' do
+      let(:params) {{ page: 3 }}
+
+      it { expect(response).to have_http_status :ok }
+
+      it 'expect to return the new number of itens per_page' do
+        expect(response_current_page).to eq 3
+        expect(response_per_page).to eq 25
+        expect(response_pagination['total']).to eq 100
+        expect(response_pagination['pages']).to eq 4
+        expect(response_entries.size).to eq 25
+      end
+    end
+
+    context 'when it has a per_page param' do
+      let(:params) {{ per_page: 42 }}
+
+      it { expect(response).to have_http_status :ok }
+
+      it 'expect to return the new number of itens per_page' do
+        expect(response_current_page).to eq 1
+        expect(response_per_page).to eq 42
+        expect(response_pagination['total']).to eq 100
+        expect(response_pagination['pages']).to eq 3
+        expect(response_entries.size).to eq 42
+      end
+    end
+
+    context 'when it has an invalid param' do
+      let(:params) {{ per_page: 999 }}
+
+      it { expect(response).to have_http_status :bad_request }
+      it { expect(response_messages).to eq ['Invalid param: per_page limit exceeded'] }
+    end
   end
 end

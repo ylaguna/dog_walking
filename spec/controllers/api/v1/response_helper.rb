@@ -1,6 +1,10 @@
 module Api
   module V1
     module ResponseHelper
+      def response_messages
+        response_body['messages']
+      end
+
       def response_entries
         response_data['entries']
       end

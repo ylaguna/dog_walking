@@ -4,10 +4,10 @@ module Api
       def json_pagination(collection, serializer, status = :ok)
         data = {
           pagination: {
-            total: 100,#collection.total_count,
-            pages: 4,#collection.total_pages,
-            current_page: 1,#collection.current_page,
-            per_page: 25,#collection.limit_value
+            total: collection.total_count,
+            pages: collection.total_pages,
+            current_page: collection.current_page,
+            per_page: collection.limit_value
           },
           entries: collection# serializer.serializer_array(collection)
         }
@@ -25,9 +25,15 @@ module Api
         render json: {
           request_id: (request.request_id rescue nil),
           result: result,
-          messages: messages,
+          messages: normalize_messages(messages),
           data: data
         }, status: status
+      end
+
+      def normalize_messages(messages)
+        return [] unless messages
+        return messages if messages.is_a? Array
+        [messages]
       end
     end
   end

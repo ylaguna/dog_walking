@@ -1,6 +1,11 @@
 class Api::V1::DogWalkController < ApplicationController
 
   def index
-    json_pagination(DogWalk.limit(25), nil)
+    search_options = params.to_unsafe_h
+
+    json_pagination(
+      Api::V1::DogWalkSearch.new(search_options).search,
+      nil
+    )
   end
 end
