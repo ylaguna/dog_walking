@@ -5,7 +5,7 @@ class Api::V1::DogWalkController < ApplicationController
 
     json_pagination(
       Api::V1::DogWalkSearch.new(search_options).search,
-      nil
+      Api::V1::DogWalkIndexSerializer
     )
   end
 end

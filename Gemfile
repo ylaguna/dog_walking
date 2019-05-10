@@ -9,10 +9,6 @@ gem 'rails', '~> 6.0.0.rc1'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -33,4 +29,11 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+#Use Kaminari for api pagination
 gem 'kaminari'
+
+#Use fast_jsonapi for Api serialization
+gem 'fast_jsonapi'
+
+#Use faker to generake random data
+gem 'faker'

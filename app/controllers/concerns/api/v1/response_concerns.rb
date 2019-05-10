@@ -9,7 +9,7 @@ module Api
             current_page: collection.current_page,
             per_page: collection.limit_value
           },
-          entries: collection# serializer.serializer_array(collection)
+          entries: serializer.serializer_array(collection)
         }
 
         json_default(result: 'success', data: data, status: status)
