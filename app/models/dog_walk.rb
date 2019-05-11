@@ -4,4 +4,6 @@ class DogWalk < ApplicationRecord
     started: 'started',
     finished: 'finished'
   }
+
+  has_many :pets, class_name: 'DogWalkPet'
 end
