@@ -56,7 +56,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - install_app_deps
+      - intall_app_dependencies
 
       - run:
           name: '[APP] Linting ruby resources'
