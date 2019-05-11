@@ -40,6 +40,28 @@ jobs:
             - Gemfile.lock
             - Dockerfile
 
+  linter:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        environment: &app_envs
+          # DATABASE
+          REGENE_WEB_DATABASE_URL: localhost
+          REGENE_WEB_DATABASE_POOL_CONN: 15
+          REGENE_WEB_DATABASE_USER: postgres
+          REGENE_WEB_DATABASE_PASS: postgres
+
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+
+      - install_app_deps
+
+      - run:
+          name: '[APP] Linting ruby resources'
+          command: bundle exec rubocop
+
   unit_tests:
     docker:
       - image: circleci/ruby:2.6.3-node-browsers
@@ -71,5 +93,8 @@ workflows:
     jobs:
       - setup
       - unit_tests:
+          requires:
+            - setup
+      - linter:
           requires:
             - setup

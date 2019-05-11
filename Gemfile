@@ -38,3 +38,6 @@ gem 'fast_jsonapi'
 
 #Use faker to generake random data
 gem 'faker'
+
+gem 'rubocop', require: false
+gem 'rubocop-performance'

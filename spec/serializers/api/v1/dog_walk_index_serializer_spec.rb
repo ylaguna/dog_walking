@@ -32,4 +32,3 @@ RSpec.describe Api::V1::DogWalkIndexSerializer do
     end
   end
 end
-

@@ -92,4 +92,3 @@ class Api::Search
     limiter
   end
 end
-

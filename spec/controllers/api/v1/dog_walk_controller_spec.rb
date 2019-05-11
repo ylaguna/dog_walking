@@ -27,7 +27,7 @@ RSpec.describe Api::V1::DogWalkController, type: :controller do
     end
 
     context 'when it has a page param' do
-      let(:params) {{ page: 3 }}
+      let(:params) { { page: 3 } }
 
       it { expect(response).to have_http_status :ok }
 
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::DogWalkController, type: :controller do
     end
 
     context 'when it has a per_page param' do
-      let(:params) {{ per_page: 42 }}
+      let(:params) { { per_page: 42 } }
 
       it { expect(response).to have_http_status :ok }
 
@@ -55,7 +55,7 @@ RSpec.describe Api::V1::DogWalkController, type: :controller do
     end
 
     context 'when it has an invalid param' do
-      let(:params) {{ per_page: 999 }}
+      let(:params) { { per_page: 999 } }
 
       it { expect(response).to have_http_status :bad_request }
       it { expect(response_messages).to eq ['Invalid param: per_page limit exceeded'] }
