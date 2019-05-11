@@ -18,15 +18,11 @@ RSpec.describe Api::V1::DogWalkIndexSerializer do
       subject { serialized_hash[:pets_count] }
 
       context 'when it has no pets' do
+        before { dog_walk.pets.destroy_all }
         it { is_expected.to eq 0  }
       end
 
       context 'when have two pets' do
-        before do
-          create(:dog_walk_pet, dog_walk: dog_walk, name: 'Luna')
-          create(:dog_walk_pet, dog_walk: dog_walk, name: 'Boris')
-        end
-
         it { is_expected.to eq 2  }
       end
     end

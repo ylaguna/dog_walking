@@ -6,11 +6,26 @@ RSpec.configure do |c|
 end
 
 RSpec.describe Api::V1::DogWalkController, type: :controller do
-  let(:params) { nil }
-  let!(:dog_walks) { create_list(:dog_walk, 100) }
+  describe 'GET #Show' do
+    let(:params) { { id: dog_walk_id } }
+    before { get :show, params: params }
+
+    context 'when it have a valid id' do
+      let(:dog_walk_id) { create(:dog_walk).id }
+      it { is_expected.to respond_with :ok }
+    end
+
+    context 'when it doesnt have a valid id' do
+      let(:dog_walk_id) { -1 }
+      it { is_expected.to respond_with :not_found }
+    end
+  end
 
   describe 'GET #index' do
+    let(:params) { nil }
+
     before do
+      create_list(:dog_walk, 100)
       get :index, params: params
     end
 

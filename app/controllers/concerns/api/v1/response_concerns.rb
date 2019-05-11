@@ -15,6 +15,11 @@ module Api
         json_default(result: 'success', data: data, status: status)
       end
 
+      def json_success_response(object, serializer, status = :ok)
+        data = serializer.serialize(object)
+        json_default(result: 'success', data: data, status: status)
+      end
+
       def json_error_response(messages, status = :unprocessable_entity)
         json_default(result: 'failure', messages: messages, status: status)
       end

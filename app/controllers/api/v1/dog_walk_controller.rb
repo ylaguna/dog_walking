@@ -7,4 +7,19 @@ class Api::V1::DogWalkController < ApplicationController
       Api::V1::DogWalkIndexSerializer
     )
   end
+
+  def show
+    dog_walk = find_dog_walk
+
+    json_success_response(
+      dog_walk,
+      Api::V1::DogWalkShowSerializer
+    )
+  end
+
+  private
+
+  def find_dog_walk
+    DogWalk.find(params.require(:id))
+  end
 end

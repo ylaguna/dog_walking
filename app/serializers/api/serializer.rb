@@ -7,4 +7,9 @@ class Api::Serializer
         serialized_item[:attributes]
       end
   end
+
+  def self.serialize(object)
+    self.new(object, is_collection: false)
+      .serializable_hash[:data][:attributes]
+  end
 end
