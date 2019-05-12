@@ -6,6 +6,30 @@ RSpec.configure do |c|
 end
 
 RSpec.describe Api::V1::DogWalkController, type: :controller do
+  describe 'PATCH #start_walk/#finish_walk' do
+    before { patch :update, params: params }
+
+    let(:params) { { id: dog_walk_id, new_status: new_status } }
+
+    context 'when it pass an invalid id' do
+      let(:dog_walk_id) { -1 }
+      let(:new_status) { 'whatever' }
+      it { is_expected.to respond_with :not_found }
+    end
+
+    context 'when it pass an invalid new_status' do
+      let(:dog_walk_id) { create(:dog_walk).id }
+      let(:new_status) { 'whatever' }
+      it { is_expected.to respond_with :bad_request }
+    end
+
+    context 'when it has good parameters' do
+      let(:dog_walk_id) { create(:dog_walk).id }
+      let(:new_status) { 'started' }
+      it { is_expected.to respond_with :ok }
+    end
+  end
+
   describe 'GET #Show' do
     let(:params) { { id: dog_walk_id } }
     before { get :show, params: params }
