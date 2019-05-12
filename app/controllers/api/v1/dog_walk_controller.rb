@@ -36,6 +36,20 @@ class Api::V1::DogWalkController < ApplicationController
     )
   end
 
+  def create
+    result = DogWalkingOperations::Create.call(params.to_unsafe_h)
+
+    if result.failure?
+      json_error_response(result.errors, :bad_request)
+      return
+    end
+
+    json_success_response(
+      result.data[:entry],
+      Api::V1::DogWalkShowSerializer
+    )
+  end
+
   private
 
   def find_dog_walk
