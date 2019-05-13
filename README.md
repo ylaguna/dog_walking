@@ -18,7 +18,7 @@ If you are running for the first time:
 
 Then:
 
-`rails s -p 3400` ( port used by the client )
+`rails s -p 4000` ( port used by the client )
 
 ### For testing
 

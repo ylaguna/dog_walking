@@ -22,6 +22,10 @@ module Api
       def search_includes
         #pets
       end
+
+      def search_filter
+        { status: [ 'started', 'waiting_to_start'] } unless @options['showOld'] == 'true'
+      end
     end
   end
 end

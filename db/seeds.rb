@@ -6,7 +6,8 @@ ActiveRecord::Base.transaction do
       title: Faker::Lorem.sentence,
       scheduled_datetime: Faker::Time.between(2.days.ago, 2.days.from_now, :all),
       latitude: Faker::Address.latitude,
-      longitude: Faker::Address.longitude
+      longitude: Faker::Address.longitude,
+      duration: ['half_hour', 'full_hour'].sample
     )
 
     rand(1..3).times do
