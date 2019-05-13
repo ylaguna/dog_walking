@@ -2,12 +2,11 @@ class DogWalkingOperations::Create < Operation
   # {
   #   title: String
   #   scheduled_datetime: Datetime
-  #   status: opts ['started', 'finished' ]
   #   location: [
   #     latitude: Float
   #     longitude Float
   #   ]
-  #   walk_type: Integer
+  #   duration: opts ['half_hour', 'full_hour' ]
   #   Pets: [
   #     name: String
   #     race: String
@@ -23,6 +22,7 @@ class DogWalkingOperations::Create < Operation
       dog_walk.scheduled_datetime = params[:scheduled_datetime]
       dog_walk.latitude = params[:location][:latitude]
       dog_walk.longitude = params[:location][:longitude]
+      dog_walk.duration = params[:duration]
 
       dog_walk.pets = params[:pets].map do |pet|
         DogWalkPet.new(name: pet[:name],
@@ -40,7 +40,7 @@ class DogWalkingOperations::Create < Operation
     @result.add_error 'title is required' unless params[:title]
     @result.add_error 'scheduled_datetime is required' unless params[:scheduled_datetime]
     @result.add_error 'location is required' unless params[:location]
-    @result.add_error 'walk_type is required' unless params[:walk_type]
+    @result.add_error 'duration is required' unless params[:duration]
     @result.add_error 'pets is required' unless params[:pets]
 
     @result.success?
